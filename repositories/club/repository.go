@@ -17,7 +17,7 @@ func NewClubRepository(conn *pg.DB) *Repository {
 
 func (r Repository) Create(fc club.FootballClub) error {
 	result, err := r.dbClient.
-		Model(fc).
+		Model(&fc).
 		Insert()
 	// log on error
 	if err != nil {

@@ -13,7 +13,8 @@ func Migrate(db *pg.DB) error {
 	}
 	for _, model := range models {
 		err := db.Model(model).CreateTable(&orm.CreateTableOptions{
-			Temp: false,
+			Temp:        false,
+			IfNotExists: true,
 		})
 		if err != nil {
 			println("error creating table", err.Error())
