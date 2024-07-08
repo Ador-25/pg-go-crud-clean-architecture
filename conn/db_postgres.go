@@ -21,6 +21,7 @@ func NewDBClient() *DBClient {
 func ConnectDB() {
 	c := config.DB()
 	client := pg.Connect(&pg.Options{
+		Database: "postgres",
 		User:     c.Username,
 		Password: c.Password,
 		Addr:     fmt.Sprintf("%s:%s", c.Host, strconv.Itoa(c.Port)),
@@ -29,6 +30,7 @@ func ConnectDB() {
 	err := client.Ping(context.Background())
 	if err != nil {
 		println("could not connect client")
+		return
 	}
 	println("client connected")
 }

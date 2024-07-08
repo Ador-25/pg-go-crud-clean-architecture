@@ -35,7 +35,7 @@ func setDefaultConfig() {
 	}
 	config.DB = &DBConfig{
 		Host:     "127.0.0.1",
-		Port:     5432,
+		Port:     5433,
 		Username: "postgres",
 		Password: "postgres",
 	}
