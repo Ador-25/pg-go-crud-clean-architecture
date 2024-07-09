@@ -1,8 +1,8 @@
 package club
 
 import (
-	"fmt"
 	"github.com/go-pg/pg/v10"
+	"log/slog"
 	"pg-go-clean-architecture/domain/club"
 	"time"
 )
@@ -18,14 +18,18 @@ func NewClubRepository(conn *pg.DB) *Repository {
 }
 
 func (r Repository) Create(fc club.FootballClub) error {
-	result, err := r.dbClient.
+	_, err := r.dbClient.
 		Model(&fc).
+		Column("club_name", "created_at", "sponsors", "is_active", "updated_at").
 		Insert()
 	// log on error
 	if err != nil {
-		return fmt.Errorf("could not insert", err.Error())
+		slog.Error("could not insert", map[string]any{
+			"err":  err.Error(),
+			"data": fc,
+		})
+		return err
 	}
-	println("insert success", result.RowsAffected())
 	return nil
 }
 
@@ -41,7 +45,10 @@ func (r Repository) Get(request club.FootballClubPaginatedRequest) ([]club.Footb
 
 	// log on error
 	if err != nil {
-		println("could not get data")
+		slog.Error("could not get data", map[string]any{
+			"err":          err.Error(),
+			"request_data": request,
+		})
 	}
 	return clubs, err
 }
@@ -56,7 +63,10 @@ func (r Repository) GetById(id int64) (club.FootballClub, error) {
 		Select()
 
 	if err != nil {
-		println("could not get club by id:", id, err.Error())
+		slog.Error("could not get data", map[string]any{
+			"err": err.Error(),
+			"id":  id,
+		})
 		return club.FootballClub{}, err
 	}
 	return fc, nil
@@ -70,7 +80,10 @@ func (r Repository) Delete(id int64) error {
 		Update()
 
 	if err != nil {
-		println("could not set club inactive:", id, err.Error())
+		slog.Error("could not delete", map[string]any{
+			"err": err.Error(),
+			"id":  id,
+		})
 		return err
 	}
 	return nil
@@ -83,7 +96,10 @@ func (r Repository) Update(fc club.FootballClub) error {
 		Update()
 
 	if err != nil {
-		println("could not update club:", fc.Id, err.Error())
+		slog.Error("could not update", map[string]any{
+			"err":  err.Error(),
+			"club": fc,
+		})
 		return err
 	}
 	return nil

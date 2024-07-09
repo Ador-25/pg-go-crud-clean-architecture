@@ -3,7 +3,7 @@ package club
 import "time"
 
 type Player struct {
-	ID        int64         `json:"id"`
+	ID        int64         `json:"id" pg:"type:serial"`
 	Name      string        `json:"name"`
 	Club      *FootballClub `json:"club" pg:"rel:has-one"`
 	ClubID    int64         `json:"club_id"`

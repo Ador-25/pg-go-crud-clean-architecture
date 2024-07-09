@@ -19,7 +19,7 @@ func NewClubController(service club.FootballClubService) *ClubController {
 	}
 }
 
-// GetClubByID handles GET /clubs/:id
+// GET /clubs/:id
 func (c *ClubController) GetClubByID(ctx echo.Context) error {
 	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 	if err != nil {
@@ -34,7 +34,7 @@ func (c *ClubController) GetClubByID(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, web.SuccessResponse(club))
 }
 
-// GetClubs handles GET /clubs
+// GET /clubs
 func (c *ClubController) GetClubs(ctx echo.Context) error {
 	var request club.FootballClubPaginatedRequest
 	if err := ctx.Bind(&request); err != nil {
@@ -49,7 +49,7 @@ func (c *ClubController) GetClubs(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, web.SuccessResponse(clubs))
 }
 
-// CreateClub handles POST /clubs
+// POST /clubs
 func (c *ClubController) CreateClub(ctx echo.Context) error {
 	var fc club.FootballClub
 	if err := ctx.Bind(&fc); err != nil {
@@ -63,7 +63,7 @@ func (c *ClubController) CreateClub(ctx echo.Context) error {
 	return ctx.JSON(http.StatusCreated, web.SuccessResponse("Football club created successfully"))
 }
 
-// UpdateClub handles PUT /clubs/:id
+// PUT /clubs/:id
 func (c *ClubController) UpdateClub(ctx echo.Context) error {
 	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 	if err != nil {
@@ -83,7 +83,7 @@ func (c *ClubController) UpdateClub(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, web.SuccessResponse("Football club updated successfully"))
 }
 
-// DeleteClub handles DELETE /clubs/:id
+// DELETE /clubs/:id
 func (c *ClubController) DeleteClub(ctx echo.Context) error {
 	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 	if err != nil {
