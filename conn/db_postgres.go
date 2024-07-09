@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-pg/pg/v10"
+	"log/slog"
 	"pg-go-clean-architecture/config"
 	"strconv"
 )
@@ -29,12 +30,21 @@ func ConnectDB() {
 	postgres_client.DB = client
 	err := client.Ping(context.Background())
 	if err != nil {
-		println("could not connect client")
+		slog.Error("could not connect to db", map[string]any{
+			"error": err.Error(),
+		})
 		return
 	}
-	println("client connected")
+	slog.Info("connected to db")
 }
 
 func CloseDB() {
-	postgres_client.DB.Close()
+	err := postgres_client.DB.Close()
+	if err != nil {
+		slog.Error("could not close db client", map[string]any{
+			"error": err.Error(),
+		})
+		return
+	}
+	slog.Info("closed db client")
 }

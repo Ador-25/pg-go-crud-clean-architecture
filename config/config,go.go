@@ -30,7 +30,7 @@ func setDefaultConfig() {
 	config.App = &AppConfig{
 		Name:         "pg-crud",
 		Port:         "5555",
-		AppKeyHeader: "maxvoice-app-key",
+		AppKeyHeader: "demo-app-key",
 		AppKey:       "fb60e941d7c48db4810d2a4282732acf",
 	}
 	config.DB = &DBConfig{
